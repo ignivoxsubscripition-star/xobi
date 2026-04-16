@@ -130,7 +130,7 @@ export default function Footer({ }: FooterProps) {
         {/* Bottom Copyright Section */}
         <div className="border-t border-white/10 mt-8 pt-4">
           <p className="text-center text-gray-400 text-xs">
-            © {new Date().getFullYear()} Xobikart • XOBICO TECHNOLOGIES PRIVATE LIMITED • Patna
+            © {new Date().getFullYear()} Xobikart • XOBICO TECHNOLOGIES PRIVATE LIMITED
           </p>
         </div>
       </div>
