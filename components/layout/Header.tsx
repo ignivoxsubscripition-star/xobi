@@ -176,6 +176,16 @@ export default function Header() {
                 </div>
               )}
 
+              {/* Login / Sign Up — desktop, shown when not logged in */}
+              {!user && (
+                <Link
+                  href="/auth/login"
+                  className="inline-flex items-center justify-center px-5 py-2 bg-white border-2 border-primary text-primary text-[14px] font-bold rounded-xl hover:bg-brand-gradient hover:text-white hover:border-transparent transition-all duration-300 shadow-sm hover:shadow-md"
+                >
+                  Login / Sign Up
+                </Link>
+              )}
+
               {/* Seller Button */}
               {isSeller ? (
                 <Link
@@ -430,10 +440,10 @@ export default function Header() {
               <div className="pt-2 mt-2 border-t border-gray-200 space-y-2">
                 <Link
                   href="/auth/login"
-                  className="flex w-full items-center justify-center px-4 py-3 bg-gray-100 text-gray-700 font-medium rounded-xl hover:bg-gray-200 transition-colors"
+                  className="flex w-full items-center justify-center px-4 py-3 bg-white border-2 border-primary text-primary font-semibold rounded-xl hover:bg-brand-gradient hover:text-white hover:border-transparent transition-all duration-300 shadow-sm"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Sign In
+                  Login / Sign Up
                 </Link>
                 {isSeller ? (
                   <Link
