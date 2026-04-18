@@ -5,7 +5,7 @@ import { Product } from '@/components/types';
 import { products as staticProducts } from '@/data/products';
 
 export const useProducts = () => {
-  const [products, setProducts] = useState<Product[]>(staticProducts);
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

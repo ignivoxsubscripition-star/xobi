@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       discountPercentage: body.originalPrice && body.price 
         ? Math.round(((Number(body.originalPrice) - Number(body.price)) / Number(body.originalPrice)) * 100)
         : undefined,
-      image: body.image || '/assets/generated.avif',
+      image: body.image || '/assets/1.jpg',
       images: body.images || [],
       category: body.category,
       description: body.description || '',
