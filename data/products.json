@@ -23,62 +23,6 @@
       "images": []
     },
     {
-      "id": "e2",
-      "name": "4K UHD Smart LED TV 43 inch",
-      "price": 29990,
-      "originalPrice": 47900,
-      "discountPercentage": 37,
-      "image": "/assets/generic/tv1.jpg",
-      "link": "/product/4k-tv-43",
-      "category": "electronics",
-      "description": "Ultra 4K Series Ultra HD Smart LED TV with HDR 10+, Vivid Color, and Premium Audio.",
-      "rating": 4.5,
-      "reviewCount": 3200,
-      "seller": "Cloudtail India",
-      "inStock": true,
-      "tags": [],
-      "images": []
-    },
-    {
-      "id": "e3",
-      "name": "Smart 5G Smartphone",
-      "price": 24999,
-      "originalPrice": 28999,
-      "discountPercentage": 14,
-      "image": "/assets/generic/phone.png",
-      "link": "/product/smart-phone-13-pro",
-      "category": "electronics",
-      "description": "200MP Camera, 67W Turbo Charge, 120Hz AMOLED Display, Snapdragon 7s Gen 2.",
-      "rating": 4.3,
-      "reviewCount": 8900,
-      "seller": "Mobile Junction",
-      "inStock": true,
-      "tags": [
-        {
-          "label": "NEW ARRIVAL",
-          "type": "new-arrival"
-        }
-      ],
-      "images": []
-    },
-    {
-      "id": "e4",
-      "name": "Sleek 5G Smartphone",
-      "price": 18999,
-      "originalPrice": 21999,
-      "discountPercentage": 14,
-      "image": "/assets/generic/phone1.png",
-      "link": "/product/sleek-smartphone-ce3-lite",
-      "category": "electronics",
-      "description": "108MP Camera, Snapdragon 695, 67W Fast Charge, 5000mAh Battery.",
-      "rating": 4.4,
-      "reviewCount": 5600,
-      "seller": "Premium Store",
-      "inStock": true,
-      "tags": [],
-      "images": []
-    },
-    {
       "id": "e5",
       "name": "Fitness Smart Band 7",
       "price": 2799,
@@ -127,28 +71,6 @@
       "seller": "Wireless India",
       "inStock": true,
       "tags": [],
-      "images": []
-    },
-    {
-      "id": "e8",
-      "name": "Ultra HD Smart LED Google TV 55 inch",
-      "price": 54990,
-      "originalPrice": 89990,
-      "discountPercentage": 39,
-      "image": "/assets/generic/tv2.png",
-      "link": "/product/smart-tv-55",
-      "category": "electronics",
-      "description": "4K HDR, Dolby Audio, Google TV, Voice Search, Chromecast Built-in.",
-      "rating": 4.6,
-      "reviewCount": 1890,
-      "seller": "Elite Center",
-      "inStock": true,
-      "tags": [
-        {
-          "label": "PREMIUM",
-          "type": "best-seller"
-        }
-      ],
       "images": []
     },
     {
