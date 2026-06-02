@@ -138,7 +138,7 @@ export default function AdminDashboard() {
           <div className="space-y-4">
             <div className="flex items-center space-x-3">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span className="text-sm text-gray-600">New product &quot;Samsung TV&quot; added</span>
+              <span className="text-sm text-gray-600">New product &quot;Smart TV&quot; added</span>
               <span className="text-xs text-gray-400">2 hours ago</span>
             </div>
             <div className="flex items-center space-x-3">
@@ -148,7 +148,7 @@ export default function AdminDashboard() {
             </div>
             <div className="flex items-center space-x-3">
               <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-              <span className="text-sm text-gray-600">Product &quot;iPhone Case&quot; updated</span>
+              <span className="text-sm text-gray-600">Product &quot;Phone Case&quot; updated</span>
               <span className="text-xs text-gray-400">6 hours ago</span>
             </div>
           </div>
