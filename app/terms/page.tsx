@@ -188,7 +188,7 @@ export default function TermsPage() {
               <div className="mb-10">
                 <h2 className="text-2xl font-bold text-dark mb-4">12. Governing Law and Jurisdiction</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  These terms shall be governed by and construed in accordance with the laws of India. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts in Bangalore, Karnataka, India.
+                  These terms shall be governed by and construed in accordance with the laws of India. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts in Patna, Bihar, India.
                 </p>
               </div>
 
