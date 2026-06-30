@@ -334,7 +334,7 @@ export default function DeliveryPolicyPage() {
                 <div className="bg-gray-50 rounded-xl p-6 mt-4">
                   <p className="text-gray-700 mb-2"><strong>Email:</strong> help@xobikart.com</p>
                   <p className="text-gray-700 mb-2"><strong>Phone:</strong> (+91) 76440 97773</p>
-                  <p className="text-gray-700"><strong>Address:</strong> XOBICO TECHNOLOGIES PRIVATE LIMITED, 104, Emarat Firdaus, Exibition Road, Patna, Bihar - 80001</p>
+                  <p className="text-gray-700"><strong>Address:</strong> XOBICO TECHNOLOGIES PRIVATE LIMITED, 104, Emarat Firdaus, Exibition Road, Patna, Bihar - 800001</p>
                 </div>
               </div>
 

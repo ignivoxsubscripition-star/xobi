@@ -407,7 +407,7 @@ export default function ContactPage() {
                       <p className="text-gray-600">
                         XOBICO TECHNOLOGIES PRIVATE LIMITED<br />
                         104, Emarat Firdaus, Exibition Road,<br />
-                        Patna, Bihar - 80001<br />
+                        Patna, Bihar - 800001<br />
                         (+91) 76440 97773
                       </p>
                     </div>

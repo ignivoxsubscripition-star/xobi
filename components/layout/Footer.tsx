@@ -119,7 +119,7 @@ export default function Footer({ }: FooterProps) {
                 <div className="text-gray-400 text-sm">
                   <p>XOBICO TECHNOLOGIES PRIVATE LIMITED</p>
                   <p>104, Emarat Firdaus, Exibition Road,</p>
-                  <p>Patna, Bihar - 80001</p>
+                  <p>Patna, Bihar - 800001</p>
                   <p>Contact: (+91) 76440 97773</p>
                 </div>
               </li>
