@@ -16,11 +16,15 @@ interface AuthContextType {
     deductCoins: (amount: number) => void;
     addCoins: (amount: number) => void;
     checkUserExists: (email: string) => Promise<boolean>;
+    sendLoginOtp: (mobile: string) => Promise<{ success: boolean; verificationId: string; userExists?: boolean; isMock?: boolean }>;
+    verifyLoginOtp: (verificationId: string, code: string) => Promise<{ success: boolean; userExists: boolean; token?: string; user?: User }>;
+    sendSignupOtp: (name: string, email: string, mobile: string) => Promise<{ success: boolean; verificationId: string; isMock?: boolean }>;
+    verifySignupOtp: (verificationId: string, code: string) => Promise<{ success: boolean; token?: string; user?: User }>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const USERS_LIST_KEY = 'xobikart_users_list';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
     const [user, setUser] = useState<User | null>(null);
@@ -30,138 +34,142 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     useEffect(() => {
         setMounted(true);
-        // Check for existing session only after mounting
-        if (typeof window !== 'undefined') {
-            const storedUser = localStorage.getItem('xobikart_user');
-            if (storedUser) {
-                try {
-                    const parsedUser = JSON.parse(storedUser);
-                    // Ensure defaults exist for legacy data
-                    if (!parsedUser.membershipTier || parsedUser.coins === undefined) {
-                        const updatedUser = {
-                            ...parsedUser,
-                            membershipTier: parsedUser.membershipTier || 'Free',
-                            coins: parsedUser.coins ?? 0
-                        };
-                        setUser(updatedUser);
-                        localStorage.setItem('xobikart_user', JSON.stringify(updatedUser));
-                    } else {
-                        setUser(parsedUser);
+        const verifySession = async () => {
+            if (typeof window !== 'undefined') {
+                const token = localStorage.getItem('xobikart_token');
+                const storedUser = localStorage.getItem('xobikart_user');
+                
+                if (token && storedUser) {
+                    try {
+                        setUser(JSON.parse(storedUser));
+
+                        const res = await fetch(`${API_URL}/api/auth/me`, {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        });
+
+                        if (res.ok) {
+                            const data = await res.json();
+                            if (data.success && data.user) {
+                                setUser(data.user);
+                                localStorage.setItem('xobikart_user', JSON.stringify(data.user));
+                            }
+                        } else {
+                            localStorage.removeItem('xobikart_token');
+                            localStorage.removeItem('xobikart_user');
+                            setUser(null);
+                        }
+                    } catch (error) {
+                        console.error('Error verifying user session:', error);
                     }
-                } catch (error) {
-                    console.error('Error parsing stored user:', error);
-                    localStorage.removeItem('xobikart_user');
                 }
             }
-        }
-        setIsLoading(false);
+            setIsLoading(false);
+        };
+        verifySession();
     }, []);
 
-    const getUsers = (): any[] => {
-        if (typeof window === 'undefined') return [];
-        const stored = localStorage.getItem(USERS_LIST_KEY);
-        let users = stored ? JSON.parse(stored) : [];
-
-        // Ensure demo user exists
-        const demoEmail = 'demo@xobikart.com';
-        if (!users.some((u: any) => u.email === demoEmail)) {
-            const demoUser = {
-                id: 'demo-id',
-                name: 'Demo User',
-                email: demoEmail,
-                password: 'demo123',
-                mobile: '1234567890',
-                role: 'user',
-                membershipTier: 'Silver',
-                coins: 500,
-            };
-            users.push(demoUser);
-            saveUsers(users);
-        }
-
-        return users;
-    };
-
-    const saveUsers = (users: any[]) => {
-        if (typeof window !== 'undefined') {
-            localStorage.setItem(USERS_LIST_KEY, JSON.stringify(users));
+    const syncProfile = async (updates: { membershipTier?: string; coins?: number }) => {
+        if (typeof window === 'undefined') return;
+        const token = localStorage.getItem('xobikart_token');
+        if (!token) return;
+        try {
+            const res = await fetch(`${API_URL}/api/auth/update-profile`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(updates)
+            });
+            if (!res.ok) {
+                console.error('Failed to sync profile with backend');
+            }
+        } catch (err) {
+            console.error('Error syncing profile:', err);
         }
     };
 
     const login = async (email: string, password: string) => {
-        setIsLoading(true);
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 800));
-
-        const users = getUsers();
-        const foundUser = users.find(u => u.email === email && u.password === password);
-
-        if (!foundUser) {
-            setIsLoading(false);
-            throw new Error('Invalid credentials');
-        }
-
-        const userToLogin: User = {
-            id: foundUser.id,
-            name: foundUser.name,
-            email: foundUser.email,
-            mobile: foundUser.mobile,
-            role: foundUser.role,
-            membershipTier: foundUser.membershipTier,
-            coins: foundUser.coins,
-        };
-
-        setUser(userToLogin);
-        if (typeof window !== 'undefined') {
-            localStorage.setItem('xobikart_user', JSON.stringify(userToLogin));
-        }
-        setIsLoading(false);
+        throw new Error('Please use OTP login instead.');
     };
 
     const register = async (userData: Omit<User, 'id' | 'role'>, password: string) => {
-        setIsLoading(true);
-        await new Promise((resolve) => setTimeout(resolve, 800));
-
-        const users = getUsers();
-        if (users.some(u => u.email === userData.email)) {
-            setIsLoading(false);
-            throw new Error('User already exists');
-        }
-
-        const newUser: User = {
-            ...userData,
-            id: Math.random().toString(36).substr(2, 9),
-            role: 'user',
-            membershipTier: 'Free',
-            coins: 0
-        };
-
-        // Save to persistent list including password
-        users.push({ ...newUser, password });
-        saveUsers(users);
-
-        setUser(newUser);
-        if (typeof window !== 'undefined') {
-            localStorage.setItem('xobikart_user', JSON.stringify(newUser));
-        }
-        setIsLoading(false);
+        throw new Error('Please use OTP signup instead.');
     };
 
     const resetPassword = async (email: string, newPassword: string) => {
-        setIsLoading(true);
-        await new Promise((resolve) => setTimeout(resolve, 800));
+        throw new Error('Password reset is not supported. Please authenticate with OTP.');
+    };
 
-        const users = getUsers();
-        const userIndex = users.findIndex(u => u.email === email);
+    const sendLoginOtp = async (mobile: string) => {
+        const res = await fetch(`${API_URL}/api/auth/login/send-otp`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ mobile })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            throw new Error(data.error || 'Failed to send login OTP');
+        }
+        return data;
+    };
 
-        if (userIndex === -1) {
-            setIsLoading(false);
-            throw new Error('User not found');
+    const verifyLoginOtp = async (verificationId: string, code: string) => {
+        const res = await fetch(`${API_URL}/api/auth/login/verify-otp`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ verificationId, code })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            throw new Error(data.error || 'Failed to verify login OTP');
         }
 
-        users[userIndex].password = newPassword;
-        saveUsers(users);
-        setIsLoading(false);
+        if (data.success && data.verified && data.userExists) {
+            setUser(data.user);
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('xobikart_token', data.token);
+                localStorage.setItem('xobikart_user', JSON.stringify(data.user));
+            }
+        }
+        return data;
+    };
+
+    const sendSignupOtp = async (name: string, email: string, mobile: string) => {
+        const res = await fetch(`${API_URL}/api/auth/signup/send-otp`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, mobile })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            throw new Error(data.error || 'Failed to send signup OTP');
+        }
+        return data;
+    };
+
+    const verifySignupOtp = async (verificationId: string, code: string) => {
+        const res = await fetch(`${API_URL}/api/auth/signup/verify-otp`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ verificationId, code })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+            throw new Error(data.error || 'Failed to verify signup OTP');
+        }
+
+        if (data.success && data.user) {
+            setUser(data.user);
+            if (typeof window !== 'undefined') {
+                localStorage.setItem('xobikart_token', data.token);
+                localStorage.setItem('xobikart_user', JSON.stringify(data.user));
+            }
+        }
+        return data;
     };
 
     const updateMembership = (tier: 'Free' | 'Silver' | 'Gold') => {
@@ -170,14 +178,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const updatedUser = { ...prev, membershipTier: tier };
             if (typeof window !== 'undefined') {
                 localStorage.setItem('xobikart_user', JSON.stringify(updatedUser));
-                // Also update in persistent list
-                const users = getUsers();
-                const idx = users.findIndex(u => u.id === prev.id);
-                if (idx !== -1) {
-                    users[idx].membershipTier = tier;
-                    saveUsers(users);
-                }
             }
+            syncProfile({ membershipTier: tier });
             return updatedUser;
         });
     };
@@ -185,17 +187,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const deductCoins = (amount: number) => {
         setUser((prev) => {
             if (!prev || (prev.coins || 0) < amount) return prev;
-            const updatedUser = { ...prev, coins: (prev.coins || 0) - amount };
+            const updatedCoins = (prev.coins || 0) - amount;
+            const updatedUser = { ...prev, coins: updatedCoins };
             if (typeof window !== 'undefined') {
                 localStorage.setItem('xobikart_user', JSON.stringify(updatedUser));
-                // Also update in persistent list
-                const users = getUsers();
-                const idx = users.findIndex(u => u.id === prev.id);
-                if (idx !== -1) {
-                    users[idx].coins = updatedUser.coins;
-                    saveUsers(users);
-                }
             }
+            syncProfile({ coins: updatedCoins });
             return updatedUser;
         });
     };
@@ -203,37 +200,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const addCoins = (amount: number) => {
         setUser((prev) => {
             if (!prev) return null;
-            const updatedUser = { ...prev, coins: (prev.coins || 0) + amount };
+            const updatedCoins = (prev.coins || 0) + amount;
+            const updatedUser = { ...prev, coins: updatedCoins };
             if (typeof window !== 'undefined') {
                 localStorage.setItem('xobikart_user', JSON.stringify(updatedUser));
-                // Also update in persistent list
-                const users = getUsers();
-                const idx = users.findIndex(u => u.id === prev.id);
-                if (idx !== -1) {
-                    users[idx].coins = updatedUser.coins;
-                    saveUsers(users);
-                }
             }
+            syncProfile({ coins: updatedCoins });
             return updatedUser;
         });
     };
 
     const checkUserExists = async (email: string) => {
-        setIsLoading(true);
-        await new Promise((resolve) => setTimeout(resolve, 500));
-        const users = getUsers();
-        const exists = users.some(u => u.email === email);
-        setIsLoading(false);
-        return exists;
+        try {
+            const res = await fetch(`${API_URL}/api/auth/check-user?email=${encodeURIComponent(email)}`);
+            const data = await res.json();
+            return !!data.exists;
+        } catch {
+            return false;
+        }
     };
 
     const logout = () => {
         setUser(null);
         if (typeof window !== 'undefined') {
             localStorage.removeItem('xobikart_user');
+            localStorage.removeItem('xobikart_token');
         }
         router.push('/');
     };
+
 
     return (
         <AuthContext.Provider
@@ -249,6 +244,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 deductCoins,
                 addCoins,
                 checkUserExists,
+                sendLoginOtp,
+                verifyLoginOtp,
+                sendSignupOtp,
+                verifySignupOtp,
             }}
         >
             {children}
