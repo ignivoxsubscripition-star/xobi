@@ -171,26 +171,6 @@ export default function CoinPayment({
         </div>
       )}
 
-      {/* Membership Benefits */}
-      <div className="mt-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl">
-        <div className="flex items-center gap-2 mb-2">
-          <span className="text-sm font-medium">
-            {membershipType === 'GOLD' ? '👑' : membershipType === 'SILVER' ? '🥈' : '👤'} 
-            {membershipType} Member Benefits
-          </span>
-        </div>
-        <div className="text-xs text-gray-600 space-y-1">
-          <div>• Use up to {MembershipService.getPlanByType(membershipType)?.maxCoinUsagePercentage}% coins on orders</div>
-          <div>• Earn {MembershipService.getPlanByType(membershipType)?.coinBonusPercentage}% bonus on wallet top-ups</div>
-          {membershipType === 'FREE' && (
-            <div className="mt-2">
-              <a href="/membership" className="text-blue-600 hover:underline">
-                Upgrade membership to use more coins →
-              </a>
-            </div>
-          )}
-        </div>
-      </div>
     </div>
   );
 }
