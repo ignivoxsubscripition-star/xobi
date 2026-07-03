@@ -41,6 +41,14 @@ export const categories: Category[] = [
         link: '/category/beauty',
         description: 'Skincare, makeup, and personal grooming',
     },
+    {
+        id: '6',
+        name: 'Home Decor & Furnishings',
+        slug: 'home-decor',
+        image: '/assets/generic/home.png',
+        link: '/category/home-decor',
+        description: 'Premium blankets, bedsheets, bath towels, and home accessories',
+    },
 ];
 
 export const products: Product[] = [
@@ -59,6 +67,8 @@ export const products: Product[] = [
         reviewCount: 15400,
         seller: 'Sharma Electronics',
         inStock: true,
+        brand: 'Sharma Electronics',
+        warranty: '1 Year Brand Warranty',
         tags: [{ label: 'BEST SELLER', type: 'best-seller' }],
     },
     {
@@ -75,6 +85,8 @@ export const products: Product[] = [
         reviewCount: 1200,
         seller: 'Gadget World',
         inStock: true,
+        brand: 'VoocCharge',
+        warranty: '6 Months Brand Warranty',
     },
 
     // Fashion

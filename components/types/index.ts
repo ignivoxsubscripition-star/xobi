@@ -21,6 +21,8 @@ export interface Product {
   reviewCount?: number;
   seller?: string;
   inStock?: boolean;
+  brand?: string;
+  warranty?: string;
 }
 
 export interface Category {

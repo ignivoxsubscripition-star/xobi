@@ -9,6 +9,14 @@
       "description": "Latest gadgets, mobiles, and electronic devices"
     },
     {
+      "id": "2",
+      "name": "Fashion & Apparel",
+      "slug": "fashion",
+      "image": "/assets/generic/backpack.png",
+      "link": "/category/fashion",
+      "description": "Trendy clothing, footwear, and accessories"
+    },
+    {
       "id": "3",
       "name": "Home & Kitchen",
       "slug": "home-kitchen",
@@ -23,6 +31,14 @@
       "image": "/uploads/1765545565277_wejapejsma.png",
       "link": "/category/mobile-accessories",
       "description": "Cases, Chargers, and more for your smartphone"
+    },
+    {
+      "id": "5",
+      "name": "Home Decor & Furnishings",
+      "slug": "home-decor",
+      "image": "/assets/generic/home.png",
+      "link": "/category/home-decor",
+      "description": "Premium blankets, bedsheets, bath towels, and home accessories"
     }
   ]
 }

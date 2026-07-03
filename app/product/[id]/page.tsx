@@ -247,6 +247,24 @@ export default function ProductDetailPage() {
                                 )}
                             </div>
 
+                            {/* Brand & Warranty Info */}
+                            {(product.brand || product.warranty) && (
+                                <div className="mb-6 pb-6 border-b border-gray-100 grid grid-cols-2 gap-4 text-sm bg-gray-50 p-4 rounded-xl">
+                                    {product.brand && (
+                                        <div>
+                                            <span className="text-gray-500 block mb-0.5">Brand</span>
+                                            <span className="font-semibold text-gray-900">{product.brand}</span>
+                                        </div>
+                                    )}
+                                    {product.warranty && (
+                                        <div>
+                                            <span className="text-gray-500 block mb-0.5">Warranty</span>
+                                            <span className="font-semibold text-gray-900">{product.warranty}</span>
+                                        </div>
+                                    )}
+                                </div>
+                            )}
+
                             {/* Description */}
                             <div className="mb-6 pb-6 border-b border-gray-100">
                                 <h3 className="text-lg font-bold text-gray-900 mb-3">Product Details</h3>
