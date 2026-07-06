@@ -62,40 +62,15 @@ export default function TermsPage() {
 
                 <h3 className="text-xl font-semibold text-dark mb-3 mt-6">5.1 Payment Methods</h3>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Customers may make payments using the payment options made available at checkout. Payment processing is facilitated through authorized third-party payment service providers. Availability of payment methods may vary depending on the customer&apos;s location and the services offered by our payment partners.
+                  Customers may make payments using the payment options made available at checkout. Availability of payment methods may vary depending on the customer&apos;s location and the services offered.
                 </p>
 
-                <h3 className="text-xl font-semibold text-dark mb-3 mt-6">5.2 Payment Processing</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  All payments made on Xobikart are processed directly by independent third-party payment service providers. Xobikart does not operate or provide payment aggregation, payment gateway, escrow, or settlement services.
-                </p>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  The processing of payments is governed by the respective terms and conditions of the selected payment service provider&apos;s terms. Customers are encouraged to review those terms before completing a transaction.
-                </p>
-
-                <h3 className="text-xl font-semibold text-dark mb-3 mt-6">5.3 Role of Xobikart</h3>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Xobikart is an online e-commerce platform that enables buyers and sellers to transact through the platform.
-                </p>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Xobikart does not:
-                </p>
-                <ul className="list-disc list-inside text-gray-700 leading-relaxed mb-4 space-y-2 ml-4">
-                  <li>Receive or hold customer funds on behalf of buyers or sellers.</li>
-                  <li>Operate any escrow or settlement account.</li>
-                  <li>Provide payment aggregation or payment gateway services.</li>
-                  <li>Offer banking or financial services.</li>
-                </ul>
-                <p className="text-gray-700 leading-relaxed mb-4">
-                  Payments are processed by authorized third-party payment service providers in accordance with applicable laws and regulations.
-                </p>
-
-                <h3 className="text-xl font-semibold text-dark mb-3 mt-6">5.4 Payment Issues</h3>
+                <h3 className="text-xl font-semibold text-dark mb-3 mt-6">5.2 Payment Issues</h3>
                 <p className="text-gray-700 leading-relaxed mb-4">
                   For any payment-related issues, including failed, pending, reversed, or disputed transactions, customers may contact Xobikart Customer Support. Resolution of such matters may involve coordination with the respective payment service provider and the issuing bank, subject to their policies and timelines.
                 </p>
 
-                <h3 className="text-xl font-semibold text-dark mb-3 mt-6">5.5 Refunds</h3>
+                <h3 className="text-xl font-semibold text-dark mb-3 mt-6">5.3 Refunds</h3>
                 <p className="text-gray-700 leading-relaxed mb-4">
                   Refunds, where applicable, shall be processed in accordance with the Xobikart Refund Policy. The actual credit of refunded amounts depends on the processing timelines of the respective payment service provider and the customer&apos;s bank.
                 </p>
@@ -124,9 +99,9 @@ export default function TermsPage() {
                   <li>Maintaining adequate inventory and updating stock availability</li>
                 </ul>
 
-                <h3 className="text-xl font-semibold text-dark mb-3 mt-6">6.3 Platform Fees and Commissions</h3>
+                <h3 className="text-xl font-semibold text-dark mb-3 mt-6">6.3 Platform Fees</h3>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  Xobikart charges sellers a commission on each successful transaction. The commission structure varies by product category and is clearly communicated during onboarding. Additional charges may include transaction processing fees, payment gateway charges, and promotional fees.
+                  Xobikart charges sellers a commission on each successful transaction. The commission structure varies by product category and is clearly communicated during onboarding.
                 </p>
               </div>
 

@@ -14,6 +14,8 @@
       "reviewCount": 15400,
       "seller": "Sharma Electronics",
       "inStock": true,
+      "brand": "Sharma Electronics",
+      "warranty": "1 Year Brand Warranty",
       "tags": [
         {
           "label": "BEST SELLER",
@@ -36,6 +38,7 @@
       "reviewCount": 12300,
       "seller": "Smart Store",
       "inStock": true,
+      "warranty": "1 Year Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -72,6 +75,7 @@
       "reviewCount": 8900,
       "seller": "Wireless India",
       "inStock": true,
+      "warranty": "1 Year Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -127,6 +131,7 @@
       "reviewCount": 6780,
       "seller": "Sleek Store",
       "inStock": true,
+      "warranty": "1 Year Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -144,6 +149,7 @@
       "reviewCount": 5230,
       "seller": "Aero Official",
       "inStock": true,
+      "warranty": "6 Months Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -161,6 +167,7 @@
       "reviewCount": 7890,
       "seller": "Gigabit India",
       "inStock": true,
+      "warranty": "1 Year Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -172,12 +179,13 @@
       "discountPercentage": 40,
       "image": "/assets/generic/charger.png",
       "link": "/product/fast-charger-20w",
-      "category": "electronics",
+      "category": "mobile-accessories",
       "description": "Type C to Type C Cable, 20W Power Delivery, Universal Compatibility.",
       "rating": 4.2,
       "reviewCount": 3450,
       "seller": "Flex",
       "inStock": true,
+      "warranty": "6 Months Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -257,6 +265,7 @@
       "reviewCount": 6780,
       "seller": "Smart Store",
       "inStock": true,
+      "warranty": "1 Year Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -274,6 +283,7 @@
       "reviewCount": 2100,
       "seller": "Home Essentials",
       "inStock": true,
+      "warranty": "No Warranty",
       "tags": [],
       "images": []
     },
@@ -291,6 +301,7 @@
       "reviewCount": 4500,
       "seller": "Thermosteel Store",
       "inStock": true,
+      "warranty": "No Warranty",
       "tags": [
         {
           "label": "BEST SELLER",
@@ -313,6 +324,7 @@
       "reviewCount": 8900,
       "seller": "Classic India",
       "inStock": true,
+      "warranty": "1 Year Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -330,6 +342,7 @@
       "reviewCount": 3450,
       "seller": "Deluxe Official",
       "inStock": true,
+      "warranty": "No Warranty",
       "tags": [],
       "images": []
     },
@@ -347,6 +360,7 @@
       "reviewCount": 6780,
       "seller": "Premium Store",
       "inStock": true,
+      "warranty": "No Warranty",
       "tags": [],
       "images": []
     },
@@ -364,6 +378,7 @@
       "reviewCount": 5670,
       "seller": "Amazon Brand",
       "inStock": true,
+      "warranty": "2 Years Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -381,6 +396,7 @@
       "reviewCount": 4320,
       "seller": "Glassware Store",
       "inStock": true,
+      "warranty": "No Warranty",
       "tags": [],
       "images": []
     },
@@ -398,6 +414,7 @@
       "reviewCount": 2890,
       "seller": "Chef's Choice",
       "inStock": true,
+      "warranty": "2 Years Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -415,6 +432,7 @@
       "reviewCount": 7890,
       "seller": "Everyday Essentials",
       "inStock": true,
+      "warranty": "No Warranty",
       "tags": [],
       "images": []
     },
@@ -432,6 +450,7 @@
       "reviewCount": 5430,
       "seller": "Classic Home",
       "inStock": true,
+      "warranty": "No Warranty",
       "tags": [],
       "images": []
     },
@@ -449,6 +468,7 @@
       "reviewCount": 3210,
       "seller": "Classic Store",
       "inStock": true,
+      "warranty": "No Warranty",
       "tags": [],
       "images": []
     },
@@ -485,6 +505,7 @@
       "reviewCount": 6780,
       "seller": "Everyday Essentials",
       "inStock": true,
+      "warranty": "No Warranty",
       "tags": [],
       "images": []
     },
@@ -502,6 +523,7 @@
       "reviewCount": 2340,
       "seller": "Everyday",
       "inStock": true,
+      "warranty": "No Warranty",
       "tags": [],
       "images": []
     },
@@ -536,6 +558,7 @@
       "reviewCount": 12300,
       "seller": "3M India",
       "inStock": true,
+      "warranty": "No Warranty",
       "tags": [],
       "images": []
     },
@@ -553,6 +576,7 @@
       "reviewCount": 5670,
       "seller": "Premium Leakproof India",
       "inStock": true,
+      "warranty": "No Warranty",
       "tags": [],
       "images": []
     },
@@ -570,6 +594,7 @@
       "reviewCount": 3450,
       "seller": "Classic India",
       "inStock": true,
+      "warranty": "1 Year Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -587,6 +612,7 @@
       "reviewCount": 1560,
       "seller": "Rugged India",
       "inStock": true,
+      "warranty": "6 Months Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -598,7 +624,7 @@
       "discountPercentage": 57,
       "image": "/assets/generic/bluetooth_speaker.jpg",
       "link": "/product/portable-waterproof-speaker",
-      "category": "mobile-accessories",
+      "category": "electronics",
       "description": "10W RMS Stereo Sound, IPX7 Waterproof, 12 Hours Playtime.",
       "rating": 4.3,
       "reviewCount": 8900,
@@ -621,6 +647,7 @@
       "reviewCount": 6780,
       "seller": "Smart India",
       "inStock": true,
+      "warranty": "6 Months Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -638,6 +665,7 @@
       "reviewCount": 2300,
       "seller": "Premium Store",
       "inStock": true,
+      "warranty": "6 Months Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -655,6 +683,7 @@
       "reviewCount": 15600,
       "seller": "Smart Store",
       "inStock": true,
+      "warranty": "6 Months Brand Warranty",
       "tags": [
         {
           "label": "BEST SELLER",
@@ -671,12 +700,13 @@
       "discountPercentage": 63,
       "image": "/assets/generic/neckband-headset.jpg",
       "link": "/product/wireless-neckband",
-      "category": "mobile-accessories",
+      "category": "electronics",
       "description": "60 Hours Playback, Fast Charge, Dual Pairing, IPX7.",
       "rating": 4.2,
       "reviewCount": 11200,
       "seller": "Premium Official",
       "inStock": true,
+      "warranty": "1 Year Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -694,6 +724,7 @@
       "reviewCount": 8900,
       "seller": "Power India",
       "inStock": true,
+      "warranty": "6 Months Brand Warranty",
       "tags": [
         {
           "label": "BEST SELLER",
@@ -710,12 +741,13 @@
       "discountPercentage": 60,
       "image": "/assets/generic/rgb_wired_gaming_headphone.jpg",
       "link": "/product/rgb-gaming-headset",
-      "category": "mobile-accessories",
+      "category": "electronics",
       "description": "7.1 Surround Sound, RGB LED, 50mm Drivers, Active Cancelling Mic.",
       "rating": 4.1,
       "reviewCount": 7650,
       "seller": "Gaming Store",
       "inStock": true,
+      "warranty": "6 Months Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -733,6 +765,7 @@
       "reviewCount": 1890,
       "seller": "Fusion Official",
       "inStock": true,
+      "warranty": "6 Months Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -750,6 +783,7 @@
       "reviewCount": 5670,
       "seller": "Eco Store",
       "inStock": true,
+      "warranty": "6 Months Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -767,6 +801,7 @@
       "reviewCount": 6780,
       "seller": "Shield India",
       "inStock": true,
+      "warranty": "No Warranty",
       "tags": [],
       "images": []
     },
@@ -784,6 +819,7 @@
       "reviewCount": 3450,
       "seller": "Flex",
       "inStock": true,
+      "warranty": "6 Months Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -868,12 +904,13 @@
       "discountPercentage": 50,
       "image": "/assets/generic/smart_band.png",
       "link": "/product/fitness-smart-band",
-      "category": "mobile-accessories",
+      "category": "electronics",
       "description": "Heart Rate Monitor, Sleep Tracking, IP67 Water Resistant.",
       "rating": 4,
       "reviewCount": 5430,
       "seller": "Aero Official",
       "inStock": true,
+      "warranty": "1 Year Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -891,6 +928,7 @@
       "reviewCount": 4320,
       "seller": "Universal India",
       "inStock": true,
+      "warranty": "6 Months Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -908,6 +946,7 @@
       "reviewCount": 2890,
       "seller": "Premium Official",
       "inStock": true,
+      "warranty": "1 Year Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -925,6 +964,7 @@
       "reviewCount": 3450,
       "seller": "Everyday",
       "inStock": true,
+      "warranty": "6 Months Brand Warranty",
       "tags": [],
       "images": []
     },
@@ -936,12 +976,13 @@
       "discountPercentage": 40,
       "image": "/assets/generic/neckband-headset.jpg",
       "link": "/product/wireless-neckband-earphones",
-      "category": "mobile-accessories",
+      "category": "electronics",
       "description": "30dB ANC, 40 Hours Playback, Fast Charging, 13.6mm Driver.",
       "rating": 4.3,
       "reviewCount": 6780,
       "seller": "Sleek Store",
       "inStock": true,
+      "warranty": "1 Year Brand Warranty",
       "tags": [
         {
           "label": "NEW ARRIVAL",
@@ -1212,7 +1253,7 @@
       "discountPercentage": 57,
       "image": "/assets/generic/backpack.png",
       "images": [],
-      "category": "electronics",
+      "category": "fashion",
       "description": "Pro Series Smart Tech Anti-Theft Laptop Backpack. Designed with high-durability, water-resistant polyester fabric. Features a hidden rear zipper pocket, built-in USB-A and USB-C charging ports for power banks, and padded sleeves that protect up to 15.6\" laptops.",
       "rating": 4,
       "reviewCount": 850,
@@ -1236,7 +1277,7 @@
       "discountPercentage": 50,
       "image": "/assets/generic/backpack1.png",
       "images": [],
-      "category": "electronics",
+      "category": "fashion",
       "description": "Iconic Laptop Backpack 30L made of premium water-resistant polyester. Includes a spacious main compartment, dedicated shock-absorbing 15.6-inch laptop pocket, side bottle pockets, external USB charging port, a luggage sleeve, and an anti-theft numbered lock.",
       "rating": 4,
       "reviewCount": 50,
@@ -1260,7 +1301,7 @@
       "discountPercentage": 53,
       "image": "/assets/generic/backpack2.jpg",
       "images": [],
-      "category": "electronics",
+      "category": "fashion",
       "description": "Gamers Laptop Backpack 35L built for heavy-duty gaming gear. Accommodates up to 17-inch gaming laptops with dedicated shockproof compartments. Features RFID-safe pockets, waterproof Bolt fabric, external USB charging, and an eye-catching RGB-ready dynamic accent stripe.",
       "rating": 4.2,
       "reviewCount": 69,
@@ -1279,7 +1320,7 @@
       "discountPercentage": 61,
       "image": "/assets/generic/backpack3.png",
       "images": [],
-      "category": "electronics",
+      "category": "fashion",
       "description": "Venture Unisex Laptop Backpack designed for versatile work and travel. Made of high-strength water-resistant fabric with orange highlights. Features a flat-open clamshell design for easy airport check-ins, separate laptop/tablet sleeves, and a collapsible partition.",
       "rating": 5,
       "reviewCount": 75,
