@@ -1,19 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Razorpay from 'razorpay';
+import { getJioPayClient } from '@/lib/jiopay';
 
 export async function POST(request: NextRequest) {
   try {
-    // Hardcoded Razorpay credentials for immediate deployment
-    const keyId = process.env.RAZORPAY_KEY_ID || 'rzp_test_Rjvg7mjDAAKe1R';
-    const keySecret = process.env.RAZORPAY_KEY_SECRET || '2KH3YutLCT2DW4AcHdvhXyg7';
+    const jiopay = getJioPayClient();
 
-    // Initialize Razorpay inside the function to avoid build-time errors
-    const razorpay = new Razorpay({
-      key_id: keyId,
-      key_secret: keySecret,
-    });
-
-    const { amount, currency, items, shippingAddress, coinsUsed, isBuyNow } = await request.json();
+    const { amount, customerEmail } = await request.json();
 
     if (!amount || amount <= 0) {
       return NextResponse.json(
@@ -22,36 +14,34 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const options = {
-      amount: amount, // amount in paise
-      currency: currency || 'INR',
-      receipt: `order_${Date.now()}`,
-      notes: {
-        items: JSON.stringify(items),
-        shippingAddress: JSON.stringify(shippingAddress),
-        coinsUsed: coinsUsed || 0,
-        isBuyNow: isBuyNow || false,
-      },
-    };
+    // amount arrives in paise (matching old Razorpay contract used by the
+    // frontend) - JioPay expects a plain rupee string like "100.00"
+    const amountInRupees = (amount / 100).toFixed(2);
+    const merchantTxnNo = `order_${Date.now()}`;
 
-    const order = await razorpay.orders.create(options);
+    const baseUrl =
+      process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+
+    const result = await jiopay.initiateSale({
+      merchantTxnNo,
+      amount: amountInRupees,
+      customerEmailID: customerEmail,
+      returnURL: `${baseUrl}/api/payment/callback`,
+    });
 
     return NextResponse.json({
       success: true,
       data: {
-        orderId: order.id,
-        amount: order.amount,
-        currency: order.currency,
-        receipt: order.receipt,
-      }
+        orderId: merchantTxnNo,
+        redirectURI: result.redirectURI,
+        amount,
+        currency: 'INR',
+      },
     });
   } catch (error: any) {
-    console.error('Error creating Razorpay order:', error);
+    console.error('Error creating JioPay order:', error);
     return NextResponse.json(
-      { 
-        success: false, 
-        error: error.message || 'Failed to create order' 
-      },
+      { success: false, error: error.message || 'Failed to create order' },
       { status: 500 }
     );
   }

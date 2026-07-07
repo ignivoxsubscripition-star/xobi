@@ -8,12 +8,6 @@ import Footer from '@/components/layout/Footer';
 import { useCart } from '@/context/CartContext';
 import { useAuth } from '@/context/AuthContext';
 
-declare global {
-  interface Window {
-    Razorpay: any;
-  }
-}
-
 interface ShippingAddress {
   fullName: string;
   address: string;
@@ -50,16 +44,6 @@ export default function CheckoutPage() {
       router.push('/cart');
       return;
     }
-
-    // Load Razorpay script
-    const script = document.createElement('script');
-    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
-    script.async = true;
-    document.body.appendChild(script);
-
-    return () => {
-      document.body.removeChild(script);
-    };
   }, [user, items.length, router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,85 +75,26 @@ export default function CheckoutPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: totalAmount * 100, // Razorpay expects amount in paise
-          currency: 'INR',
-          items: items,
-          shippingAddress: shippingAddress,
+          amount: totalAmount * 100, // still sending paise, converted server-side for JioPay
+          customerEmail: user?.email,
         }),
       });
 
       const order = await response.json();
 
-      if (!order.id) {
-        throw new Error('Failed to create order');
+      if (!order.success || !order.data.redirectURI) {
+        throw new Error(order.error || 'Failed to create order');
       }
 
-      // Check if Razorpay is loaded
-      if (!window.Razorpay) {
-        throw new Error('Razorpay SDK not loaded. Please refresh the page and try again.');
+      // Deduct coins optimistically before redirect - real payment
+      // confirmation happens server-side via webhook (app/api/payment/verify),
+      // but there's no order-linked coin rollback in place yet if payment
+      // ultimately fails. Same limitation existed in the old Razorpay flow.
+      if (discount > 0) {
+        deductCoins(discount);
       }
 
-      // Initialize Razorpay
-      const options = {
-        key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || 'rzp_test_Rjvg7mjDAAKe1R',
-        amount: order.amount,
-        currency: order.currency,
-        name: 'Xobikart',
-        description: 'Order Payment',
-        order_id: order.id,
-        handler: function (response: any) {
-          // Payment successful
-          // Deduct coins if used
-          if (discount > 0) {
-            deductCoins(discount); // 1 Coin = ₹1
-          }
-
-          // Store payment details in sessionStorage for the success page
-          if (typeof window !== 'undefined') {
-            sessionStorage.setItem('payment_success', JSON.stringify({
-              payment_id: response.razorpay_payment_id,
-              order_id: response.razorpay_order_id,
-              timestamp: Date.now()
-            }));
-          }
-
-          // Redirect to success page
-          const successUrl = `/order-success?payment_id=${response.razorpay_payment_id}&order_id=${response.razorpay_order_id}`;
-          router.replace(successUrl);
-        },
-        prefill: {
-          name: shippingAddress.fullName,
-          email: user?.email,
-          contact: shippingAddress.phone,
-        },
-        theme: {
-          color: '#e74c37',
-        },
-        modal: {
-          ondismiss: function () {
-            setLoading(false);
-          }
-        },
-        notes: {
-          address: `${shippingAddress.address}, ${shippingAddress.city}, ${shippingAddress.state} - ${shippingAddress.pincode}`,
-          merchant_order_id: `order_${Date.now()}`,
-        },
-        retry: {
-          enabled: true,
-          max_count: 1
-        }
-      };
-
-      const razorpay = new window.Razorpay(options);
-
-      // Add error handling for payment failures
-      razorpay.on('payment.failed', function (response: any) {
-        console.error('Payment failed:', response.error);
-        alert(`Payment failed: ${response.error.description || 'Please try again'}`);
-        setLoading(false);
-      });
-
-      razorpay.open();
+      window.location.href = order.data.redirectURI;
     } catch (error) {
       console.error('Payment error:', error);
       alert('Payment failed. Please try again.');

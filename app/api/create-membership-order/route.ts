@@ -1,42 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Razorpay from 'razorpay';
+import { getJioPayClient } from '@/lib/jiopay';
 
 export async function POST(request: NextRequest) {
-    try {
-        // Hardcoded Razorpay credentials for immediate deployment
-        const keyId = process.env.RAZORPAY_KEY_ID || 'rzp_test_Rjvg7mjDAAKe1R';
-        const keySecret = process.env.RAZORPAY_KEY_SECRET || '2KH3YutLCT2DW4AcHdvhXyg7';
+  try {
+    const jiopay = getJioPayClient();
 
-        // Initialize Razorpay inside the function to avoid build-time errors
-        const razorpay = new Razorpay({
-            key_id: keyId,
-            key_secret: keySecret,
-        });
+    const { planId, amount, currency, customerEmail } = await request.json();
 
-        const { planId, amount, currency } = await request.json();
+    const amountInRupees = (amount / 100).toFixed(2); // amount arrives in paise
+    const merchantTxnNo = `membership_${planId}_${Date.now()}`;
 
-        const options = {
-            amount: amount * 100, // amount in paise
-            currency: currency || 'INR',
-            receipt: `membership_${planId}_${Date.now()}`,
-            notes: {
-                planId: planId,
-                type: 'membership_subscription'
-            },
-        };
+    const baseUrl =
+      process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
-        const order = await razorpay.orders.create(options);
+    const result = await jiopay.initiateSale({
+      merchantTxnNo,
+      amount: amountInRupees,
+      customerEmailID: customerEmail,
+      returnURL: `${baseUrl}/api/payment/callback`,
+    });
 
-        return NextResponse.json({
-            id: order.id,
-            amount: order.amount,
-            currency: order.currency,
-        });
-    } catch (error) {
-        console.error('Error creating Razorpay membership order:', error);
-        return NextResponse.json(
-            { error: 'Failed to create membership order' },
-            { status: 500 }
-        );
-    }
+    return NextResponse.json({
+      success: true,
+      data: {
+        orderId: merchantTxnNo,
+        redirectURI: result.redirectURI,
+        amount,
+        currency: currency || 'INR',
+      },
+    });
+  } catch (error: any) {
+    console.error('Error creating JioPay membership order:', error);
+    return NextResponse.json(
+      { success: false, error: error.message || 'Failed to create membership order' },
+      { status: 500 }
+    );
+  }
 }

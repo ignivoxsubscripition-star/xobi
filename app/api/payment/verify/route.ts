@@ -1,128 +1,47 @@
 import { NextRequest, NextResponse } from 'next/server';
-import crypto from 'crypto';
-import Razorpay from 'razorpay';
+import { getJioPayClient } from '@/lib/jiopay';
 
-// POST /api/payment/verify - Verify Razorpay payment
 export async function POST(request: NextRequest) {
   try {
-    // Hardcoded Razorpay credentials for immediate deployment
-    const keyId = process.env.RAZORPAY_KEY_ID || 'rzp_test_Rjvg7mjDAAKe1R';
-    const keySecret = process.env.RAZORPAY_KEY_SECRET || '2KH3YutLCT2DW4AcHdvhXyg7';
+    const jiopay = getJioPayClient();
+    const payload = await request.json();
 
-    // Initialize Razorpay inside the function to avoid build-time errors
-    const razorpay = new Razorpay({
-      key_id: keyId,
-      key_secret: keySecret,
-    });
-
-    const body = await request.json();
-    const { 
-      razorpay_order_id, 
-      razorpay_payment_id, 
-      razorpay_signature,
-      type, // 'membership' or 'coin_topup' or 'order'
-      userId 
-    } = body;
-
-    if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
+    const isValid = jiopay.verifySecureHash(payload);
+    if (!isValid) {
+      console.error('JioPay webhook: hash verification failed', payload);
       return NextResponse.json(
-        { success: false, error: 'Missing payment verification data' },
+        { success: false, error: 'Invalid signature' },
         { status: 400 }
       );
     }
 
-    // Verify signature
-    const sign = razorpay_order_id + '|' + razorpay_payment_id;
-    const expectedSign = crypto
-      .createHmac('sha256', keySecret)
-      .update(sign.toString())
-      .digest('hex');
+    const { responseCode, merchantTxnNo, txnID, amount } = payload;
+    const isSuccess = responseCode === '0000';
 
-    if (razorpay_signature !== expectedSign) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid payment signature' },
-        { status: 400 }
-      );
+    if (!isSuccess) {
+      console.log(`Payment failed for ${merchantTxnNo}: ${payload.respDescription}`);
+      return NextResponse.json({ success: true }); // ack receipt either way
     }
 
-    // Fetch payment details from Razorpay
-    const payment = await razorpay.payments.fetch(razorpay_payment_id);
-    const order = await razorpay.orders.fetch(razorpay_order_id);
-
-    if (payment.status !== 'captured') {
-      return NextResponse.json(
-        { success: false, error: 'Payment not captured' },
-        { status: 400 }
-      );
+    // merchantTxnNo prefix tells us what this payment was for, since
+    // JioPay's webhook has no client-supplied "type"/"userId" fields
+    // (unlike the old Razorpay flow where the frontend passed those in).
+    if (merchantTxnNo?.startsWith('order_')) {
+      console.log(`Order payment confirmed: ${merchantTxnNo}, txnID: ${txnID}, amount: ${amount}`);
+      // TODO: mark order as paid in your order storage once that exists
+    } else if (merchantTxnNo?.startsWith('membership_')) {
+      console.log(`Membership payment confirmed: ${merchantTxnNo}, txnID: ${txnID}`);
+      // TODO: upgrade user's membership
+    } else if (merchantTxnNo?.startsWith('coin_topup_')) {
+      console.log(`Coin top-up confirmed: ${merchantTxnNo}, txnID: ${txnID}`);
+      // TODO: add coins to wallet
     }
 
-    // Process based on payment type
-    if (type === 'membership') {
-      // Handle membership upgrade
-      const planType = order.notes?.planType;
-      const planName = order.notes?.planName;
-      
-      // Here you would update the user's membership in your database
-      console.log(`Upgrading user ${userId} to ${planType} membership`);
-      
-      return NextResponse.json({
-        success: true,
-        message: `Successfully upgraded to ${planName}!`,
-        data: {
-          membershipType: planType,
-          paymentId: razorpay_payment_id,
-          orderId: razorpay_order_id
-        }
-      });
-    } else if (type === 'order') {
-      // Handle regular order payment (cart or buy now)
-      console.log(`Processing order payment for user ${userId}`);
-      
-      return NextResponse.json({
-        success: true,
-        message: 'Order placed successfully!',
-        data: {
-          paymentId: razorpay_payment_id,
-          orderId: razorpay_order_id,
-          amount: Number(payment.amount) / 100, // Convert paise to rupees
-        }
-      });
-    } else if (type === 'coin_topup') {
-      // Handle coin top-up
-      const coinsToAdd = order.notes?.coinsToAdd ? parseInt(String(order.notes.coinsToAdd)) : 0;
-      const bonusCoins = order.notes?.bonusCoins ? parseInt(String(order.notes.bonusCoins)) : 0;
-      const totalCoins = order.notes?.totalCoins ? parseInt(String(order.notes.totalCoins)) : 0;
-      
-      // Here you would add coins to user's wallet in your database
-      console.log(`Adding ${totalCoins} coins to user ${userId} wallet`);
-      
-      return NextResponse.json({
-        success: true,
-        message: `Successfully added ${totalCoins} coins to your wallet!`,
-        data: {
-          coinsAdded: coinsToAdd,
-          bonusCoins: bonusCoins,
-          totalCoins: totalCoins,
-          paymentId: razorpay_payment_id,
-          orderId: razorpay_order_id
-        }
-      });
-    }
-
-    // Default response for unknown types
-    return NextResponse.json({
-      success: true,
-      message: 'Payment verified successfully!',
-      data: {
-        paymentId: razorpay_payment_id,
-        orderId: razorpay_order_id
-      }
-    });
-
+    return NextResponse.json({ success: true });
   } catch (error: any) {
-    console.error('Error verifying payment:', error);
+    console.error('Error processing JioPay webhook:', error);
     return NextResponse.json(
-      { success: false, error: error.message || 'Payment verification failed' },
+      { success: false, error: error.message || 'Webhook processing failed' },
       { status: 500 }
     );
   }

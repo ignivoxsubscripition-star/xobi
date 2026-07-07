@@ -7,7 +7,6 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { useBuyNow } from '@/context/BuyNowContext';
 import { useAuth } from '@/context/AuthContext';
-import { useRazorpay } from '@/hooks/useRazorpay';
 import CoinPayment from '@/components/checkout/CoinPayment';
 import { useMembership } from '@/context/MembershipContext';
 
@@ -24,7 +23,6 @@ export default function BuyNowPage() {
   const { buyNowItem, clearBuyNowItem } = useBuyNow();
   const { user } = useAuth();
   const { getMembershipType, coinBalance } = useMembership();
-  const { initiatePayment } = useRazorpay();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [coinsToUse, setCoinsToUse] = useState(0);
@@ -92,47 +90,21 @@ export default function BuyNowPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: finalAmount * 100, // Razorpay expects amount in paise
-          currency: 'INR',
-          items: [{
-            id: buyNowItem.product.id,
-            name: buyNowItem.product.name,
-            price: buyNowItem.product.price,
-            quantity: buyNowItem.quantity,
-            image: buyNowItem.product.image
-          }],
-          shippingAddress: shippingAddress,
-          coinsUsed: coinsToUse,
-          isBuyNow: true,
+          amount: finalAmount * 100, // still sending paise, converted server-side for JioPay
+          customerEmail: user?.email,
         }),
       });
 
       const data = await response.json();
 
-      if (!data.success) {
+      if (!data.success || !data.data.redirectURI) {
         throw new Error(data.error || 'Failed to create order');
       }
 
-      // Initiate Razorpay payment
-      await initiatePayment({
-        orderId: data.data.orderId,
-        amount: data.data.amount,
-        currency: data.data.currency,
-        name: 'Xobikart Order',
-        description: `Order for ${buyNowItem.product.name}`,
-        type: 'order', // Changed to 'order' type
-        onSuccess: (verifyResponse) => {
-          console.log('Payment successful:', verifyResponse);
-          clearBuyNowItem();
-          // Redirect to order success page with correct parameter names
-          window.location.href = `/order-success?order_id=${data.data.orderId}&payment_id=${verifyResponse.data?.paymentId || ''}`;
-        },
-        onError: (error) => {
-          console.error('Payment failed:', error);
-          alert(`❌ Payment failed: ${error.message}`);
-          setLoading(false);
-        },
-      });
+      clearBuyNowItem();
+      // JioPay redirects the browser away to their hosted checkout page.
+      // Payment result comes back via /api/payment/callback (returnURL).
+      window.location.href = data.data.redirectURI;
     } catch (error: any) {
       console.error('Order creation failed:', error);
       alert(`❌ Failed to create order: ${error.message}`);
@@ -337,7 +309,7 @@ export default function BuyNowPage() {
                   <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
-                  <span>Secure Payment via Razorpay</span>
+                  <span>Secure Payment via Jiopay</span>
                 </div>
               </div>
             </div>
