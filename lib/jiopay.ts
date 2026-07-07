@@ -99,7 +99,7 @@ export class JioPayClient {
     payload.secureHash = this.generateSecureHash(payload);
 
     const response = await fetch(
-      `${JIOPAY_BASE_URL}/pg/api/v2/initiateSale`,
+      `${JIOPAY_BASE_URL}/tsp/pg/api/v2/initiateSale`,
       {
         method: 'POST',
         headers: {
@@ -139,7 +139,7 @@ export class JioPayClient {
 
     const body = new URLSearchParams(payload).toString();
 
-    const response = await fetch(`${JIOPAY_BASE_URL}/pg/api/command`, {
+    const response = await fetch(`${JIOPAY_BASE_URL}/tsp/pg/api/command`, {
       method: 'POST',
       headers: {
         accept: 'application/json',

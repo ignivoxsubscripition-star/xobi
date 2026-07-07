@@ -29,11 +29,19 @@ export async function POST(request: NextRequest) {
       returnURL: `${baseUrl}/api/payment/callback`,
     });
 
+    // JioPay requires tranCtx to be sent along with the redirect to
+    // redirectURI (not just the bare URL), so we append it as a query param.
+    let redirectURI = result.redirectURI;
+    if (redirectURI && result.tranCtx) {
+      const separator = redirectURI.includes('?') ? '&' : '?';
+      redirectURI = `${redirectURI}${separator}tranCtx=${encodeURIComponent(result.tranCtx)}`;
+    }
+
     return NextResponse.json({
       success: true,
       data: {
         orderId: merchantTxnNo,
-        redirectURI: result.redirectURI,
+        redirectURI,
         amount,
         currency: 'INR',
       },
