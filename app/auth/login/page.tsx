@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/layout/Header';
@@ -14,9 +14,28 @@ export default function LoginPage() {
     const [verificationId, setVerificationId] = useState('');
     const [error, setError] = useState('');
     const [info, setInfo] = useState('');
-    const { sendLoginOtp, verifyLoginOtp } = useAuth();
+    const { sendLoginOtp, verifyLoginOtp, isAuthenticated, isLoading: authLoading } = useAuth();
     const router = useRouter();
     const [loading, setLoading] = useState(false);
+
+    // Redirect already-authenticated users away from the login page
+    useEffect(() => {
+        if (!authLoading && isAuthenticated) {
+            router.replace('/');
+        }
+    }, [isAuthenticated, authLoading, router]);
+
+    // Show spinner while checking existing session
+    if (authLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary" />
+            </div>
+        );
+    }
+
+    // Don't flash the login form while a redirect is in progress
+    if (isAuthenticated) return null;
 
     const handleSendOtp = async (e: React.FormEvent) => {
         e.preventDefault();

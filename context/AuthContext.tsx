@@ -38,11 +38,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             if (typeof window !== 'undefined') {
                 const token = localStorage.getItem('xobikart_token');
                 const storedUser = localStorage.getItem('xobikart_user');
-                
+
                 if (token && storedUser) {
+                    // Restore user from localStorage immediately so the UI
+                    // never flashes to a "logged out" state while we verify.
                     try {
                         setUser(JSON.parse(storedUser));
+                    } catch {
+                        // Corrupted JSON — clear and bail out
+                        localStorage.removeItem('xobikart_token');
+                        localStorage.removeItem('xobikart_user');
+                        setIsLoading(false);
+                        return;
+                    }
 
+                    try {
                         const res = await fetch(`${API_URL}/api/auth/me`, {
                             method: 'GET',
                             headers: {
@@ -51,18 +61,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                         });
 
                         if (res.ok) {
+                            // Server confirmed the token — refresh user data
                             const data = await res.json();
                             if (data.success && data.user) {
                                 setUser(data.user);
                                 localStorage.setItem('xobikart_user', JSON.stringify(data.user));
                             }
                         } else {
+                            // Server explicitly rejected the token (401 / 403 / 404)
+                            // Clear the session so the user is prompted to log in again.
+                            console.warn('Session token rejected by server — logging out.', res.status);
                             localStorage.removeItem('xobikart_token');
                             localStorage.removeItem('xobikart_user');
                             setUser(null);
                         }
-                    } catch (error) {
-                        console.error('Error verifying user session:', error);
+                    } catch (networkError) {
+                        // Network failure (backend unreachable, no internet, etc.)
+                        // Keep the user signed in — don't punish them for connectivity issues.
+                        // The stored user data is still valid until the token actually expires.
+                        console.warn('Could not reach auth server — keeping existing session.', networkError);
                     }
                 }
             }

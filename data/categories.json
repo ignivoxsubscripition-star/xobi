@@ -20,7 +20,7 @@
       "id": "3",
       "name": "Home & Kitchen",
       "slug": "home-kitchen",
-      "image": "/uploads/1765545449757_qwkgprgrwu.png",
+      "image": "/assets/generic/kitchen.png",
       "link": "/category/home-kitchen",
       "description": "Essentials for your home and kitchen"
     },
@@ -28,7 +28,7 @@
       "id": "4",
       "name": "Mobile Accessories",
       "slug": "mobile-accessories",
-      "image": "/uploads/1765545565277_wejapejsma.png",
+      "image": "/assets/generic/phone1.png",
       "link": "/category/mobile-accessories",
       "description": "Cases, Chargers, and more for your smartphone"
     },
