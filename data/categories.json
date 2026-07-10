@@ -28,17 +28,9 @@
       "id": "4",
       "name": "Mobile Accessories",
       "slug": "mobile-accessories",
-      "image": "/assets/generic/phone1.png",
+      "image": "/assets/generic/charger.png",
       "link": "/category/mobile-accessories",
       "description": "Cases, Chargers, and more for your smartphone"
-    },
-    {
-      "id": "5",
-      "name": "Home Decor & Furnishings",
-      "slug": "home-decor",
-      "image": "/assets/generic/home.png",
-      "link": "/category/home-decor",
-      "description": "Premium blankets, bedsheets, bath towels, and home accessories"
     }
   ]
 }

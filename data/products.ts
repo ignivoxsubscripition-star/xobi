@@ -29,17 +29,9 @@ export const categories: Category[] = [
     "id": "4",
     "name": "Mobile Accessories",
     "slug": "mobile-accessories",
-    "image": "/assets/generic/phone1.png",
+    "image": "/assets/generic/charger.png",
     "link": "/category/mobile-accessories",
     "description": "Cases, Chargers, and more for your smartphone"
-  },
-  {
-    "id": "5",
-    "name": "Home Decor & Furnishings",
-    "slug": "home-decor",
-    "image": "/assets/generic/home.png",
-    "link": "/category/home-decor",
-    "description": "Premium blankets, bedsheets, bath towels, and home accessories"
   }
 ];
 
@@ -339,25 +331,7 @@ export const products: Product[] = [
     "images": [],
     "brand": "BrewMaster"
   },
-  {
-    "id": "hk4",
-    "name": "Opalware Dinner Set 27 Pieces",
-    "price": 2499,
-    "originalPrice": 4999,
-    "discountPercentage": 50,
-    "image": "/assets/generic/kitchen.png",
-    "link": "/product/opalware-dinner-set",
-    "category": "home-kitchen",
-    "description": "Microwave Safe, Break Resistant, Serves 6 People.. Designed with premium durability and high-quality materials to ensure long-lasting performance and maximum user satisfaction. A perfect addition to your daily routine.",
-    "rating": 4.4,
-    "reviewCount": 3450,
-    "seller": "Deluxe Official",
-    "inStock": true,
-    "warranty": "No Warranty",
-    "tags": [],
-    "images": [],
-    "brand": "LaOpale"
-  },
+
   {
     "id": "hk5",
     "name": "Premium Vegetable Chopper 900ml",
@@ -396,44 +370,8 @@ export const products: Product[] = [
     "images": [],
     "brand": "Prestige"
   },
-  {
-    "id": "hk9",
-    "name": "Cotton Bedsheet King Size",
-    "price": 799,
-    "originalPrice": 1999,
-    "discountPercentage": 60,
-    "image": "/assets/generic/home.png",
-    "link": "/product/cotton-bedsheet",
-    "category": "home-decor",
-    "description": "Double Bedsheet with 2 Pillow Covers, 144 TC.. Designed with premium durability and high-quality materials to ensure long-lasting performance and maximum user satisfaction. A perfect addition to your daily routine.",
-    "rating": 4,
-    "reviewCount": 7890,
-    "seller": "Everyday Essentials",
-    "inStock": true,
-    "warranty": "No Warranty",
-    "tags": [],
-    "images": [],
-    "brand": "CottonLux"
-  },
-  {
-    "id": "hk16",
-    "name": "Heavy Duty Scrub Pad Large (Pack of 6)",
-    "price": 149,
-    "originalPrice": 210,
-    "discountPercentage": 29,
-    "image": "/assets/generic/scrub_pad.jpg",
-    "link": "/product/heavy-duty-scrub-pads",
-    "category": "home-kitchen",
-    "description": "Heavy Duty, Long Lasting, Removes Tough Stains.. Designed with premium durability and high-quality materials to ensure long-lasting performance and maximum user satisfaction. A perfect addition to your daily routine.",
-    "rating": 4.5,
-    "reviewCount": 12300,
-    "seller": "3M India",
-    "inStock": true,
-    "warranty": "No Warranty",
-    "tags": [],
-    "images": [],
-    "brand": "3M Scotch-Brite"
-  },
+
+
   {
     "id": "hk18",
     "name": "2-Slice Pop-up Toaster 830W",
