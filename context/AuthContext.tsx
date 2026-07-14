@@ -13,8 +13,6 @@ interface AuthContextType {
     resetPassword: (email: string, newPassword: string) => Promise<void>;
     isAuthenticated: boolean;
     updateMembership: (tier: 'Free' | 'Silver' | 'Gold') => void;
-    deductCoins: (amount: number) => void;
-    addCoins: (amount: number) => void;
     checkUserExists: (email: string) => Promise<boolean>;
     sendLoginOtp: (mobile: string) => Promise<{ success: boolean; verificationId: string; userExists?: boolean; isMock?: boolean }>;
     verifyLoginOtp: (verificationId: string, code: string) => Promise<{ success: boolean; userExists: boolean; token?: string; user?: User }>;
@@ -88,7 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         verifySession();
     }, []);
 
-    const syncProfile = async (updates: { membershipTier?: string; coins?: number }) => {
+    const syncProfile = async (updates: { membershipTier?: string }) => {
         if (typeof window === 'undefined') return;
         const token = localStorage.getItem('xobikart_token');
         if (!token) return;
@@ -201,31 +199,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         });
     };
 
-    const deductCoins = (amount: number) => {
-        setUser((prev) => {
-            if (!prev || (prev.coins || 0) < amount) return prev;
-            const updatedCoins = (prev.coins || 0) - amount;
-            const updatedUser = { ...prev, coins: updatedCoins };
-            if (typeof window !== 'undefined') {
-                localStorage.setItem('xobikart_user', JSON.stringify(updatedUser));
-            }
-            syncProfile({ coins: updatedCoins });
-            return updatedUser;
-        });
-    };
-
-    const addCoins = (amount: number) => {
-        setUser((prev) => {
-            if (!prev) return null;
-            const updatedCoins = (prev.coins || 0) + amount;
-            const updatedUser = { ...prev, coins: updatedCoins };
-            if (typeof window !== 'undefined') {
-                localStorage.setItem('xobikart_user', JSON.stringify(updatedUser));
-            }
-            syncProfile({ coins: updatedCoins });
-            return updatedUser;
-        });
-    };
 
     const checkUserExists = async (email: string) => {
         try {
@@ -258,8 +231,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 resetPassword,
                 isAuthenticated: !!user,
                 updateMembership,
-                deductCoins,
-                addCoins,
                 checkUserExists,
                 sendLoginOtp,
                 verifyLoginOtp,

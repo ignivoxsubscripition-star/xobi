@@ -32,9 +32,6 @@ export async function POST(request: NextRequest) {
     } else if (merchantTxnNo?.startsWith('membership_')) {
       console.log(`Membership payment confirmed: ${merchantTxnNo}, txnID: ${txnID}`);
       // TODO: upgrade user's membership
-    } else if (merchantTxnNo?.startsWith('coin_topup_')) {
-      console.log(`Coin top-up confirmed: ${merchantTxnNo}, txnID: ${txnID}`);
-      // TODO: add coins to wallet
     }
 
     return NextResponse.json({ success: true });

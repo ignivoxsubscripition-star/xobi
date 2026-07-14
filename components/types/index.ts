@@ -47,7 +47,6 @@ export interface User {
   mobile?: string;
   role: 'user' | 'seller' | 'admin';
   membershipTier?: 'Free' | 'Silver' | 'Gold';
-  coins?: number;
 }
 
 export interface Seller {

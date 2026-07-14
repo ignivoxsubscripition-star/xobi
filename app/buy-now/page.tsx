@@ -7,8 +7,6 @@ import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import { useBuyNow } from '@/context/BuyNowContext';
 import { useAuth } from '@/context/AuthContext';
-import CoinPayment from '@/components/checkout/CoinPayment';
-import { useMembership } from '@/context/MembershipContext';
 
 interface ShippingAddress {
   fullName: string;
@@ -22,11 +20,8 @@ interface ShippingAddress {
 export default function BuyNowPage() {
   const { buyNowItem, clearBuyNowItem } = useBuyNow();
   const { user } = useAuth();
-  const { getMembershipType, coinBalance } = useMembership();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [coinsToUse, setCoinsToUse] = useState(0);
-  const [finalAmount, setFinalAmount] = useState(0);
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress>({
     fullName: user?.name || '',
     address: '',
@@ -50,9 +45,7 @@ export default function BuyNowPage() {
       router.push('/');
       return;
     }
-
-    setFinalAmount(totalAmount);
-  }, [user, buyNowItem, router, totalAmount]);
+  }, [user, buyNowItem, router]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -65,11 +58,6 @@ export default function BuyNowPage() {
   const validateForm = () => {
     const required = ['fullName', 'address', 'city', 'state', 'pincode', 'phone'];
     return required.every(field => shippingAddress[field as keyof ShippingAddress].trim() !== '');
-  };
-
-  const handleCoinUsageChange = (coins: number, amount: number) => {
-    setCoinsToUse(coins);
-    setFinalAmount(amount);
   };
 
   const handlePlaceOrder = async () => {
@@ -90,7 +78,7 @@ export default function BuyNowPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          amount: finalAmount * 100, // still sending paise, converted server-side for JioPay
+          amount: totalAmount * 100, // still sending paise, converted server-side for JioPay
           customerEmail: user?.email,
         }),
       });
@@ -147,7 +135,7 @@ export default function BuyNowPage() {
           <h1 className="text-3xl font-bold text-gray-900 mb-8">Complete Your Purchase</h1>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {/* Left Column - Shipping & Payment */}
+            {/* Left Column - Shipping */}
             <div className="lg:col-span-2 space-y-6">
               {/* Shipping Address */}
               <div className="bg-white rounded-xl shadow-md p-6">
@@ -233,16 +221,6 @@ export default function BuyNowPage() {
                   </div>
                 </div>
               </div>
-
-              {/* Coin Payment */}
-              {coinBalance && coinBalance.balance > 0 && (
-                <CoinPayment
-                  orderAmount={totalAmount}
-                  userCoinBalance={coinBalance.balance}
-                  membershipType={getMembershipType()}
-                  onCoinUsageChange={handleCoinUsageChange}
-                />
-              )}
             </div>
 
             {/* Right Column - Order Summary */}
@@ -283,15 +261,9 @@ export default function BuyNowPage() {
                       {deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge}`}
                     </span>
                   </div>
-                  {coinsToUse > 0 && (
-                    <div className="flex justify-between text-green-600 font-semibold">
-                      <span>Coins Used</span>
-                      <span>-₹{coinsToUse}</span>
-                    </div>
-                  )}
                   <div className="border-t border-gray-200 pt-3 flex justify-between text-lg font-bold text-gray-900">
                     <span>Total Amount</span>
-                    <span>₹{finalAmount.toLocaleString('en-IN')}</span>
+                    <span>₹{totalAmount.toLocaleString('en-IN')}</span>
                   </div>
                 </div>
 

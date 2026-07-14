@@ -1,5 +1,5 @@
 // Membership Business Logic
-import { MembershipPlan, UserMembership, XobikartCoin, CoinTransaction, MEMBERSHIP_PLANS, COIN_EARNING_RULES } from './types/membership';
+import { MembershipPlan, UserMembership, MEMBERSHIP_PLANS } from './types/membership';
 
 export class MembershipService {
   // Get all available membership plans
@@ -18,28 +18,6 @@ export class MembershipService {
     return plans.find(plan => plan.type === type) || null;
   }
 
-  // Calculate coin bonus based on membership
-  static calculateCoinBonus(amount: number, membershipType: 'FREE' | 'SILVER' | 'GOLD'): number {
-    const plan = this.getPlanByType(membershipType);
-    if (!plan) return 0;
-    
-    return Math.floor((amount * plan.coinBonusPercentage) / 100);
-  }
-
-  // Calculate maximum coins that can be used for payment
-  static calculateMaxCoinUsage(orderAmount: number, membershipType: 'FREE' | 'SILVER' | 'GOLD'): number {
-    const plan = this.getPlanByType(membershipType);
-    if (!plan) return 0;
-    
-    return Math.floor((orderAmount * plan.maxCoinUsagePercentage) / 100);
-  }
-
-  // Calculate coins earned from purchase
-  static calculatePurchaseCoins(orderAmount: number, membershipType: 'FREE' | 'SILVER' | 'GOLD'): number {
-    const baseCoins = Math.floor((orderAmount * COIN_EARNING_RULES.PURCHASE_PERCENTAGE) / 100);
-    const bonusCoins = this.calculateCoinBonus(baseCoins, membershipType);
-    return baseCoins + bonusCoins;
-  }
 
   // Check if membership is active
   static isMembershipActive(membership: UserMembership): boolean {
@@ -86,57 +64,3 @@ export class MembershipService {
   }
 }
 
-export class CoinService {
-  // Calculate wallet topup bonus
-  static calculateWalletTopupBonus(amount: number, membershipType: 'FREE' | 'SILVER' | 'GOLD'): number {
-    return MembershipService.calculateCoinBonus(amount, membershipType);
-  }
-
-  // Format coin display
-  static formatCoins(amount: number): string {
-    if (amount >= 1000) {
-      return `${(amount / 1000).toFixed(1)}K`;
-    }
-    return amount.toString();
-  }
-
-  // Convert coins to INR (1 coin = ₹1)
-  static coinsToINR(coins: number): number {
-    return coins;
-  }
-
-  // Convert INR to coins (₹1 = 1 coin)
-  static INRToCoins(amount: number): number {
-    return amount;
-  }
-
-  // Validate coin usage for order
-  static validateCoinUsage(coinsToUse: number, availableCoins: number, orderAmount: number, membershipType: 'FREE' | 'SILVER' | 'GOLD'): {
-    isValid: boolean;
-    maxAllowed: number;
-    error?: string;
-  } {
-    const maxAllowed = MembershipService.calculateMaxCoinUsage(orderAmount, membershipType);
-    
-    if (coinsToUse > availableCoins) {
-      return {
-        isValid: false,
-        maxAllowed,
-        error: 'Insufficient coins in wallet'
-      };
-    }
-    
-    if (coinsToUse > maxAllowed) {
-      return {
-        isValid: false,
-        maxAllowed,
-        error: `Maximum ${maxAllowed} coins can be used for this order`
-      };
-    }
-    
-    return {
-      isValid: true,
-      maxAllowed
-    };
-  }
-}

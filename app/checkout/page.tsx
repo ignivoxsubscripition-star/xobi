@@ -19,7 +19,7 @@ interface ShippingAddress {
 
 export default function CheckoutPage() {
   const { items, cartTotal, clearCart, discount } = useCart();
-  const { user, deductCoins } = useAuth();
+  const { user } = useAuth();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [shippingAddress, setShippingAddress] = useState<ShippingAddress>({
@@ -86,13 +86,6 @@ export default function CheckoutPage() {
         throw new Error(order.error || 'Failed to create order');
       }
 
-      // Deduct coins optimistically before redirect - real payment
-      // confirmation happens server-side via webhook (app/api/payment/verify),
-      // but there's no order-linked coin rollback in place yet if payment
-      // ultimately fails. Same limitation existed in the old Razorpay flow.
-      if (discount > 0) {
-        deductCoins(discount);
-      }
 
       window.location.href = order.data.redirectURI;
     } catch (error) {

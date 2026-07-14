@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import Header from '@/components/layout/Header';
@@ -11,25 +10,6 @@ import { useAuth } from '@/context/AuthContext';
 export default function CartPage() {
     const { items, removeFromCart, updateQuantity, cartTotal, clearCart, subtotal, discount, applyDiscount } = useCart();
     const { user } = useAuth();
-    const [useCoins, setUseCoins] = useState(false);
-
-    // Calculate max coins usable
-    const maxCoinDiscount = subtotal * 0.5;
-    const availableCoins = user?.coins || 0;
-    const canRedeem = availableCoins > 0;
-
-    const handleCoinToggle = () => {
-        if (!useCoins) {
-            // Turning ON
-            const discountAmount = Math.min(availableCoins, maxCoinDiscount);
-            applyDiscount(discountAmount);
-            setUseCoins(true);
-        } else {
-            // Turning OFF
-            applyDiscount(0);
-            setUseCoins(false);
-        }
-    };
 
     if (items.length === 0) {
         return (
@@ -161,32 +141,9 @@ export default function CartPage() {
                                     <dd className="text-sm font-medium text-gray-900">₹{subtotal.toLocaleString('en-IN')}</dd>
                                 </div>
 
-                                {/* Coin Redemption Section */}
-                                {user && canRedeem && (
-                                    <div className="py-4 border-t border-gray-100">
-                                        <div className="flex items-center justify-between mb-2">
-                                            <div className="flex items-center">
-                                                <span className="text-sm font-medium text-gray-900 mr-2">Use Xobikart Coins</span>
-                                                <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full font-bold">
-                                                    Balance: {availableCoins.toFixed(1)}
-                                                </span>
-                                            </div>
-                                            <button
-                                                onClick={handleCoinToggle}
-                                                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none ${useCoins ? 'bg-primary' : 'bg-gray-200'}`}
-                                            >
-                                                <span className={`${useCoins ? 'translate-x-6' : 'translate-x-1'} inline-block h-4 w-4 transform rounded-full bg-white transition-transform`} />
-                                            </button>
-                                        </div>
-                                        <p className="text-xs text-gray-500">
-                                            You can save up to ₹{maxCoinDiscount.toLocaleString('en-IN')} (50% of order)
-                                        </p>
-                                    </div>
-                                )}
-
                                 {discount > 0 && (
                                     <div className="flex items-center justify-between text-primary">
-                                        <dt className="text-sm font-medium">Coin Discount</dt>
+                                        <dt className="text-sm font-medium">Discount</dt>
                                         <dd className="text-sm font-bold">-₹{discount.toLocaleString('en-IN')}</dd>
                                     </div>
                                 )}
