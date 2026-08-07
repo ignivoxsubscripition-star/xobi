@@ -7,13 +7,17 @@ export async function POST(request: NextRequest) {
 
   try {
     const contentType = request.headers.get('content-type') || '';
+    console.log('=== RAW B2B CALLBACK RECEIVED === URL:', request.url, '| content-type:', contentType);
     if (contentType.includes('application/json')) {
-      payload = await request.json();
+      const rawBodyText = await request.text();
+      console.log('=== RAW B2B CALLBACK BODY ===', rawBodyText);
+      payload = JSON.parse(rawBodyText);
     } else {
       const formData = await request.formData();
       formData.forEach((value, key) => {
         payload[key] = value;
       });
+      console.log('=== RAW B2B CALLBACK FORM DATA ===', JSON.stringify(payload));
     }
   } catch (error) {
     console.error('Failed to parse JioPay callback payload:', error);

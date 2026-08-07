@@ -3,8 +3,12 @@ import { getJioPayClient } from '@/lib/jiopay';
 
 export async function POST(request: NextRequest) {
   try {
+    // const jiopay = getJioPayClient();
+    // const payload = await request.json();
     const jiopay = getJioPayClient();
-    const payload = await request.json();
+    const rawBodyText = await request.text();
+    console.log('=== RAW S2S WEBHOOK RECEIVED ===', rawBodyText);
+    const payload = JSON.parse(rawBodyText);
 
     const isValid = jiopay.verifySecureHash(payload);
     if (!isValid) {
