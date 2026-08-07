@@ -37,7 +37,7 @@ function initializeCategoriesFile() {
         id: '4',
         name: 'Mobile Accessories',
         slug: 'mobile-accessories',
-        image: '/assets/generated.avif',
+        image: '/assets/generic/charger.png',
         link: '/category/mobile-accessories',
         description: 'Cases, Chargers, and more for your smartphone',
       },

@@ -80,7 +80,6 @@ export default function Header() {
 
             {/* Right Actions */}
             <div className="flex items-center space-x-6">
-              {/* Coin Balance */}
 
 
               {/* Cart Icon */}
@@ -118,13 +117,6 @@ export default function Header() {
                     className="flex items-center space-x-2 text-gray-700 hover:text-primary focus:outline-none"
                   >
                     <div className="flex items-center space-x-3 mr-1">
-                      {/* Coins Pill */}
-                      {user.coins !== undefined && (
-                        <div className="flex items-center space-x-1 bg-[#FFFBEA] border border-[#FFD700] px-3 py-1 rounded-full shadow-md">
-                          <span className="text-xl">💰</span>
-                          <span className="text-[#B7791F] font-bold text-sm">{user.coins.toFixed(1)}</span>
-                        </div>
-                      )}
 
 
 
@@ -323,14 +315,7 @@ export default function Header() {
                     <p className="text-sm font-semibold text-gray-900">{user.name}</p>
                     <p className="text-xs text-gray-500 mb-2">{user.email}</p>
 
-                    {/* Mobile Stats Pills */}
                     <div className="flex flex-wrap gap-2 mt-2">
-                      {user.coins !== undefined && (
-                        <div className="flex items-center space-x-1 bg-[#FFFBEA] border border-[#FFD700] px-2 py-0.5 rounded-full shadow-md">
-                          <span className="text-sm">💰</span>
-                          <span className="text-[#B7791F] font-bold text-xs">{user.coins.toFixed(1)}</span>
-                        </div>
-                      )}
 
 
                     </div>

@@ -20,7 +20,7 @@
       "id": "3",
       "name": "Home & Kitchen",
       "slug": "home-kitchen",
-      "image": "/uploads/1765545449757_qwkgprgrwu.png",
+      "image": "/assets/generic/kitchen.png",
       "link": "/category/home-kitchen",
       "description": "Essentials for your home and kitchen"
     },
@@ -28,17 +28,9 @@
       "id": "4",
       "name": "Mobile Accessories",
       "slug": "mobile-accessories",
-      "image": "/uploads/1765545565277_wejapejsma.png",
+      "image": "/assets/generic/charger.png",
       "link": "/category/mobile-accessories",
       "description": "Cases, Chargers, and more for your smartphone"
-    },
-    {
-      "id": "5",
-      "name": "Home Decor & Furnishings",
-      "slug": "home-decor",
-      "image": "/assets/generic/home.png",
-      "link": "/category/home-decor",
-      "description": "Premium blankets, bedsheets, bath towels, and home accessories"
     }
   ]
 }

@@ -1,12 +1,11 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { UserMembership, XobikartCoin } from '@/lib/types/membership';
+import { UserMembership } from '@/lib/types/membership';
 import { useAuth } from './AuthContext';
 
 interface MembershipContextType {
   membership: UserMembership | null;
-  coinBalance: XobikartCoin | null;
   isLoading: boolean;
   refreshMembershipData: () => Promise<void>;
   getMembershipType: () => 'FREE' | 'SILVER' | 'GOLD';
@@ -16,7 +15,6 @@ const MembershipContext = createContext<MembershipContextType | undefined>(undef
 
 export function MembershipProvider({ children }: { children: React.ReactNode }) {
   const [membership, setMembership] = useState<UserMembership | null>(null);
-  const [coinBalance, setCoinBalance] = useState<XobikartCoin | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const { user, isAuthenticated } = useAuth();
 
@@ -32,8 +30,6 @@ export function MembershipProvider({ children }: { children: React.ReactNode }) 
       price: 99,
       duration: 30,
       currency: 'INR',
-      coinBonusPercentage: 5,
-      maxCoinUsagePercentage: 40,
       isActive: true,
       features: [],
       createdAt: new Date(),
@@ -47,19 +43,10 @@ export function MembershipProvider({ children }: { children: React.ReactNode }) 
     updatedAt: new Date()
   };
 
-  const mockCoinBalance: XobikartCoin = {
-    id: 'coin_1',
-    userId: user?.id || '1',
-    balance: 1250,
-    totalEarned: 3500,
-    totalSpent: 2250,
-    lastUpdated: new Date()
-  };
 
   const refreshMembershipData = async () => {
     if (!isAuthenticated || !user) {
       setMembership(null);
-      setCoinBalance(null);
       return;
     }
 
@@ -70,16 +57,13 @@ export function MembershipProvider({ children }: { children: React.ReactNode }) 
       
       // In a real app, you would fetch from your API:
       // const membershipResponse = await fetch(`/api/membership?userId=${user.id}`);
-      // const coinResponse = await fetch(`/api/coins?userId=${user.id}`);
       
       // For now, use mock data
       setMembership(mockMembership);
-      setCoinBalance(mockCoinBalance);
     } catch (error) {
       console.error('Error fetching membership data:', error);
       // Set default free membership on error
       setMembership(null);
-      setCoinBalance(mockCoinBalance);
     } finally {
       setIsLoading(false);
     }
@@ -95,7 +79,6 @@ export function MembershipProvider({ children }: { children: React.ReactNode }) 
       refreshMembershipData();
     } else {
       setMembership(null);
-      setCoinBalance(null);
     }
   }, [isAuthenticated, user]);
 
@@ -103,7 +86,6 @@ export function MembershipProvider({ children }: { children: React.ReactNode }) 
     <MembershipContext.Provider
       value={{
         membership,
-        coinBalance,
         isLoading,
         refreshMembershipData,
         getMembershipType,

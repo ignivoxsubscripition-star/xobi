@@ -13,8 +13,6 @@ interface AuthContextType {
     resetPassword: (email: string, newPassword: string) => Promise<void>;
     isAuthenticated: boolean;
     updateMembership: (tier: 'Free' | 'Silver' | 'Gold') => void;
-    deductCoins: (amount: number) => void;
-    addCoins: (amount: number) => void;
     checkUserExists: (email: string) => Promise<boolean>;
     sendLoginOtp: (mobile: string) => Promise<{ success: boolean; verificationId: string; userExists?: boolean; isMock?: boolean }>;
     verifyLoginOtp: (verificationId: string, code: string) => Promise<{ success: boolean; userExists: boolean; token?: string; user?: User }>;
@@ -38,11 +36,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             if (typeof window !== 'undefined') {
                 const token = localStorage.getItem('xobikart_token');
                 const storedUser = localStorage.getItem('xobikart_user');
-                
+
                 if (token && storedUser) {
+                    // Restore user from localStorage immediately so the UI
+                    // never flashes to a "logged out" state while we verify.
                     try {
                         setUser(JSON.parse(storedUser));
+                    } catch {
+                        // Corrupted JSON — clear and bail out
+                        localStorage.removeItem('xobikart_token');
+                        localStorage.removeItem('xobikart_user');
+                        setIsLoading(false);
+                        return;
+                    }
 
+                    try {
                         const res = await fetch(`${API_URL}/api/auth/me`, {
                             method: 'GET',
                             headers: {
@@ -51,18 +59,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                         });
 
                         if (res.ok) {
+                            // Server confirmed the token — refresh user data
                             const data = await res.json();
                             if (data.success && data.user) {
                                 setUser(data.user);
                                 localStorage.setItem('xobikart_user', JSON.stringify(data.user));
                             }
                         } else {
+                            // Server explicitly rejected the token (401 / 403 / 404)
+                            // Clear the session so the user is prompted to log in again.
+                            console.warn('Session token rejected by server — logging out.', res.status);
                             localStorage.removeItem('xobikart_token');
                             localStorage.removeItem('xobikart_user');
                             setUser(null);
                         }
-                    } catch (error) {
-                        console.error('Error verifying user session:', error);
+                    } catch (networkError) {
+                        // Network failure (backend unreachable, no internet, etc.)
+                        // Keep the user signed in — don't punish them for connectivity issues.
+                        // The stored user data is still valid until the token actually expires.
+                        console.warn('Could not reach auth server — keeping existing session.', networkError);
                     }
                 }
             }
@@ -71,7 +86,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         verifySession();
     }, []);
 
-    const syncProfile = async (updates: { membershipTier?: string; coins?: number }) => {
+    const syncProfile = async (updates: { membershipTier?: string }) => {
         if (typeof window === 'undefined') return;
         const token = localStorage.getItem('xobikart_token');
         if (!token) return;
@@ -184,31 +199,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         });
     };
 
-    const deductCoins = (amount: number) => {
-        setUser((prev) => {
-            if (!prev || (prev.coins || 0) < amount) return prev;
-            const updatedCoins = (prev.coins || 0) - amount;
-            const updatedUser = { ...prev, coins: updatedCoins };
-            if (typeof window !== 'undefined') {
-                localStorage.setItem('xobikart_user', JSON.stringify(updatedUser));
-            }
-            syncProfile({ coins: updatedCoins });
-            return updatedUser;
-        });
-    };
-
-    const addCoins = (amount: number) => {
-        setUser((prev) => {
-            if (!prev) return null;
-            const updatedCoins = (prev.coins || 0) + amount;
-            const updatedUser = { ...prev, coins: updatedCoins };
-            if (typeof window !== 'undefined') {
-                localStorage.setItem('xobikart_user', JSON.stringify(updatedUser));
-            }
-            syncProfile({ coins: updatedCoins });
-            return updatedUser;
-        });
-    };
 
     const checkUserExists = async (email: string) => {
         try {
@@ -241,8 +231,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 resetPassword,
                 isAuthenticated: !!user,
                 updateMembership,
-                deductCoins,
-                addCoins,
                 checkUserExists,
                 sendLoginOtp,
                 verifyLoginOtp,

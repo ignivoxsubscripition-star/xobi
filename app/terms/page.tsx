@@ -130,47 +130,72 @@ export default function TermsPage() {
 
               {/* Section 9 */}
               <div className="mb-10">
-                <h2 className="text-2xl font-bold text-dark mb-4">9. User Conduct</h2>
+                <h2 className="text-2xl font-bold text-dark mb-4">9. Product Warranty Policies</h2>
+                
+                <h3 className="text-xl font-semibold text-dark mb-3 mt-6">9.1 Manufacturer/Brand Warranty</h3>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  You agree not to use the platform for any unlawful purpose or in any way that could damage, disable, or impair the platform. You shall not attempt to gain unauthorized access to any portion of the platform or any systems or networks connected to the platform.
+                  For products sold on the Xobikart platform carrying a manufacturer or brand warranty, the warranty is provided directly by the respective brand/manufacturer. Xobikart does not issue, service, or bear liability for these warranties.
+                </p>
+
+                <h3 className="text-xl font-semibold text-dark mb-3 mt-6">9.2 Warranty Duration & Coverage</h3>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  The specific warranty period (e.g., 6 Months, 1 Year, 2 Years) is listed on the respective product detail page. The warranty covers manufacturing defects under normal usage conditions. It does not cover wear and tear, accidental physical damage, liquid ingress, electrical surges, or unauthorized repair attempts.
+                </p>
+
+                <h3 className="text-xl font-semibold text-dark mb-3 mt-6">9.3 How to Claim Warranty</h3>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  To claim warranty services, customers should contact the authorized brand service center directly with their original purchase invoice. If assistance is needed to locate authorized service centers or request duplicate invoices, customers may contact Xobikart Customer Support.
+                </p>
+
+                <h3 className="text-xl font-semibold text-dark mb-3 mt-6">9.4 Non-Warranty Products</h3>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Certain categories of products, including home decor, apparel, kitchen scrub pads, or items clearly marked &quot;No Warranty&quot; on the product listing page, do not qualify for manufacturer or brand warranty coverage.
                 </p>
               </div>
 
               {/* Section 10 */}
               <div className="mb-10">
-                <h2 className="text-2xl font-bold text-dark mb-4">10. Intellectual Property</h2>
+                <h2 className="text-2xl font-bold text-dark mb-4">10. User Conduct</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  All content on this platform, including but not limited to text, graphics, logos, images, and software, is the property of XOBICO TECHNOLOGIES PRIVATE LIMITED or its content suppliers and is protected by Indian and international copyright laws. Unauthorized use of any content may violate copyright, trademark, and other laws.
+                  You agree not to use the platform for any unlawful purpose or in any way that could damage, disable, or impair the platform. You shall not attempt to gain unauthorized access to any portion of the platform or any systems or networks connected to the platform.
                 </p>
               </div>
 
               {/* Section 11 */}
               <div className="mb-10">
-                <h2 className="text-2xl font-bold text-dark mb-4">11. Limitation of Liability</h2>
+                <h2 className="text-2xl font-bold text-dark mb-4">11. Intellectual Property</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  To the maximum extent permitted by law, XOBICO TECHNOLOGIES PRIVATE LIMITED shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of the platform. Our total liability shall not exceed the amount paid by you for the specific product or service giving rise to the claim.
+                  All content on this platform, including but not limited to text, graphics, logos, images, and software, is the property of XOBICO TECHNOLOGIES PRIVATE LIMITED or its content suppliers and is protected by Indian and international copyright laws. Unauthorized use of any content may violate copyright, trademark, and other laws.
                 </p>
               </div>
 
               {/* Section 12 */}
               <div className="mb-10">
-                <h2 className="text-2xl font-bold text-dark mb-4">12. Governing Law and Jurisdiction</h2>
+                <h2 className="text-2xl font-bold text-dark mb-4">12. Limitation of Liability</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  These terms shall be governed by and construed in accordance with the laws of India. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts in Patna, Bihar, India.
+                  To the maximum extent permitted by law, XOBICO TECHNOLOGIES PRIVATE LIMITED shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising out of or related to your use of the platform. Our total liability shall not exceed the amount paid by you for the specific product or service giving rise to the claim.
                 </p>
               </div>
 
               {/* Section 13 */}
               <div className="mb-10">
-                <h2 className="text-2xl font-bold text-dark mb-4">13. Modifications to Terms</h2>
+                <h2 className="text-2xl font-bold text-dark mb-4">13. Governing Law and Jurisdiction</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
-                  We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting on the platform. Your continued use of the platform after any such changes constitutes your acceptance of the new terms.
+                  These terms shall be governed by and construed in accordance with the laws of India. Any disputes arising from these terms shall be subject to the exclusive jurisdiction of the courts in Patna, Bihar, India.
                 </p>
               </div>
 
               {/* Section 14 */}
               <div className="mb-10">
-                <h2 className="text-2xl font-bold text-dark mb-4">14. Contact Information</h2>
+                <h2 className="text-2xl font-bold text-dark mb-4">14. Modifications to Terms</h2>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  We reserve the right to modify these terms at any time. Changes will be effective immediately upon posting on the platform. Your continued use of the platform after any such changes constitutes your acceptance of the new terms.
+                </p>
+              </div>
+
+              {/* Section 15 */}
+              <div className="mb-10">
+                <h2 className="text-2xl font-bold text-dark mb-4">15. Contact Information</h2>
                 <p className="text-gray-700 leading-relaxed mb-4">
                   For any questions regarding these terms, please contact us at:
                 </p>
