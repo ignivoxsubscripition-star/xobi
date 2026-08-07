@@ -110,7 +110,9 @@ export class JioPayClient {
       }
     );
 
-    const data = await response.json();
+    const rawText = await response.text();
+    console.log('=== INITIATE SALE RAW RESPONSE === status:', response.status, '| body:', rawText);
+    const data = JSON.parse(rawText);
 
     if (data.responseCode !== 'R1000') {
       throw new Error(
